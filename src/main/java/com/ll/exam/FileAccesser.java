@@ -1,45 +1,61 @@
 package com.ll.exam;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.Arrays;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class FileAccesser {
-    public static int registPhrase(String phrase, String author) throws IOException {
-        String writeData = JsonHandler.jsonBuilder(phrase, author);
+    public static void registPhrase(Phrase phrase) throws IOException {
+        String writeData = JsonHandler.jsonBuilder(phrase);
 
-        int index = getLastIndex();
-        String filePath = String.format("src/data/phrases/%d.json", index);
+        String filePath = String.format("src/data/phrases/%d.json", phrase.getIndex());
         File file = new File(filePath);
 
         if(!file.exists()){
             file.createNewFile();
         }
 
-        BufferedWriter writer = new BufferedWriter((new FileWriter(file, true)));
+        BufferedWriter writer = new BufferedWriter((new FileWriter(file, false)));
         writer.write(writeData);
 
         writer.flush();
         writer.close();
-
-        return index;
     }
 
-    public static int getPhrasesList(){
-
-    }
-
-    private static int getLastIndex(){
+    public static ArrayList<Phrase> getPhrasesList() throws IOException {
         String folderPath = "src/data/phrases";
         File dir = new File(folderPath);
-        int lastIndex = Arrays.stream(dir.list())
-                .map(fileName -> fileName.replace(".json", ""))
-                .mapToInt(Integer::parseInt)
-                .max()
-                .getAsInt();
-        return lastIndex+1;
+
+        File[] filenames = dir.listFiles();
+        ArrayList<String> stringList = new ArrayList<>();
+
+        for(File file : filenames){
+            BufferedReader obj = new BufferedReader(new FileReader(file));
+            StringBuilder sbResult = new StringBuilder();
+            String str;
+            while((str = obj.readLine())!=null){
+                sbResult.append(str);
+            }
+            stringList.add(String.valueOf(sbResult));
+            obj.close();
+        }
+
+        ArrayList<Phrase> phrasesList = JsonHandler.jsonParser(stringList);
+        return phrasesList;
     }
+
+    public static void deletePhrase(int index) throws FileNotFoundException {
+        String filePath = "src/data/phrases/" + index + ".json";
+        System.out.println(filePath);
+        File file = new File(filePath);
+
+        if(file.exists()){
+            file.delete();
+        } else {
+            throw new FileNotFoundException();
+        }
+    }
+
+
 }
 

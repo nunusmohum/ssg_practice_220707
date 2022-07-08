@@ -5,18 +5,28 @@ import java.util.Arrays;
 
 public class Phrase {
     private final int index;
-    private final String phrase;
+    private final String context;
     private final String author;
 
-    Phrase(String phrase, String author){
-        this.phrase = phrase;
+    Phrase(String context, String author){
+        this.context = context;
         this.author = author;
         this.index = getLastIndex();
+    }
+
+    Phrase(String context, String author, int index){
+        this.context = context;
+        this.author = author;
+        this.index = index;
     }
 
     private int getLastIndex(){
         String folderPath = "src/data/phrases";
         File dir = new File(folderPath);
+
+        if(dir.list().length == 0){
+            return 1;
+        }
         int lastIndex = Arrays.stream(dir.list())
                 .map(fileName -> fileName.replace(".json", ""))
                 .mapToInt(Integer::parseInt)
@@ -29,8 +39,8 @@ public class Phrase {
         return index;
     }
 
-    public String getPhrase() {
-        return phrase;
+    public String getContext() {
+        return context;
     }
 
     public String getAuthor() {
