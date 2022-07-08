@@ -2,7 +2,6 @@ package com.ll.exam;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class FileAccesser {
     public static void registPhrase(Phrase phrase) throws IOException {

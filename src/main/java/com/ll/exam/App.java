@@ -1,13 +1,8 @@
 package com.ll.exam;
 
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Scanner;
-import java.util.stream.Stream;
 
 public class App {
     Scanner sc = new Scanner(System.in);

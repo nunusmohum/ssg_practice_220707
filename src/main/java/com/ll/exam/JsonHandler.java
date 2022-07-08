@@ -1,7 +1,6 @@
 package com.ll.exam;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class JsonHandler{
     public static String jsonBuilder(Phrase phrase){
