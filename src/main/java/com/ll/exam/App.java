@@ -1,14 +1,17 @@
 package com.ll.exam;
 
-import java.util.HashMap;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.Scanner;
+import java.util.stream.Stream;
 
 public class App {
-    private HashMap<String, String> phrases = new HashMap<>();
+    Scanner sc = new Scanner(System.in);
     public void run(){
         System.out.println("=== 명언 SSG ===");
-
-        Scanner sc = new Scanner(System.in);
 
         outer:
         while(true){
@@ -19,12 +22,11 @@ public class App {
                 case "종료":
                     break outer;
                 case "등록":
-                    System.out.printf("명언 : ");
-                    String phrase = sc.nextLine();
-                    System.out.printf("작가 : ");
-                    String writer = sc.nextLine();
-                    register(phrase, writer);
-                    System.out.printf("%d번 명언이 등록되었습니다.\n", phrases.size());
+                    register();
+                    break;
+                case "목록":
+                    printList();
+                    break;
             }
         }
 
@@ -32,7 +34,25 @@ public class App {
 
     }
 
-    private void register(String phrase, String writer){
-        phrases.put(phrase, writer);
+    private void register() {
+        System.out.printf("명언 : ");
+        String phrase = sc.nextLine();
+        System.out.printf("작가 : ");
+        String author = sc.nextLine();
+
+        try {
+            int index = FileAccesser.registFile(phrase, author);
+            System.out.println(index + "번 명언이 등록되었습니다.");
+        } catch (IOException e) {
+            System.out.println("[Error] 파일 등록 실패");
+            e.printStackTrace();
+        }
     }
+
+    private void printList(){
+        System.out.println("번호 / 작가 / 명언");
+        System.out.println("----------------------");
+    }
+
+
 }
