@@ -21,7 +21,7 @@ public class Phrase {
     }
 
     private int getLastIndex(){
-        String folderPath = "src/data/phrases";
+        String folderPath = "data/phrases";
         File dir = new File(folderPath);
 
         if(dir.list().length == 0){
