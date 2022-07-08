@@ -8,6 +8,7 @@ public class App {
     public static final String DATA_PHRASES_PATH = "data/phrases/";
     Scanner sc = new Scanner(System.in);
     public void run(){
+        init();
         System.out.println("=== 명언 SSG ===");
 
         outer:
@@ -144,6 +145,10 @@ public class App {
         }
 
         return true;
+    }
+
+    private void init(){
+        FileAccesser.checkDataFolder();
     }
 
 

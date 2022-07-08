@@ -1,6 +1,9 @@
 package com.ll.exam;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 
 public class FileAccesser {
@@ -52,6 +55,14 @@ public class FileAccesser {
             file.delete();
         } else {
             throw new FileNotFoundException();
+        }
+    }
+
+    public static void checkDataFolder(){
+        Path path = Paths.get(App.DATA_PHRASES_PATH);
+        if(!Files.exists(path)){
+            File folder = new File(App.DATA_PHRASES_PATH);
+            folder.mkdirs();
         }
     }
 
