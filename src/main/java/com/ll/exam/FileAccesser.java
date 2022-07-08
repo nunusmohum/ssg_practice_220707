@@ -7,7 +7,7 @@ public class FileAccesser {
     public static void registPhrase(Phrase phrase) throws IOException {
         String writeData = JsonHandler.jsonBuilder(phrase);
 
-        String filePath = String.format("src/data/phrases/%d.json", phrase.getIndex());
+        String filePath = String.format("data/phrases/%d.json", phrase.getIndex());
         File file = new File(filePath);
 
         if(!file.exists()){
@@ -22,7 +22,7 @@ public class FileAccesser {
     }
 
     public static ArrayList<Phrase> getPhrasesList() throws IOException {
-        String folderPath = "src/data/phrases";
+        String folderPath = "data/phrases";
         File dir = new File(folderPath);
 
         File[] filenames = dir.listFiles();
@@ -44,7 +44,7 @@ public class FileAccesser {
     }
 
     public static void deletePhrase(int index) throws FileNotFoundException {
-        String filePath = "src/data/phrases/" + index + ".json";
+        String filePath = "data/phrases/" + index + ".json";
         System.out.println(filePath);
         File file = new File(filePath);
 

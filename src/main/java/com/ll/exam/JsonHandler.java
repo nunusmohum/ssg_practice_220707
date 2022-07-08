@@ -5,9 +5,9 @@ import java.util.ArrayList;
 public class JsonHandler{
     public static String jsonBuilder(Phrase phrase){
         return String.format("{\n\t\"id\": \"%d\",\n\t\"context\": \"%s\",\n\t\"author\": \"%s\"\n}"
-                , phrase.getIndex()
-                , phrase.getContext()
-                , phrase.getAuthor());
+                ,phrase.getIndex()
+                ,phrase.getContext()
+                ,phrase.getAuthor());
     }
 
     public static ArrayList<Phrase> jsonParser(ArrayList<String> stringList){
