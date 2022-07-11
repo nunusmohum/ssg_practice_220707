@@ -6,9 +6,13 @@ import java.util.Scanner;
 
 public class App {
     public static final String DATA_PHRASES_PATH = "data/phrases/";
-    Scanner sc = new Scanner(System.in);
+    Scanner sc;
+
+    public App(){
+        sc = new Scanner(System.in);
+        FileAccesser.checkDataFolder();
+    }
     public void run(){
-        init();
         System.out.println("=== 명언 SSG ===");
 
         outer:
@@ -16,21 +20,23 @@ public class App {
             System.out.printf("명령) ");
             String cmd = sc.nextLine().trim();
 
-            switch(cmd){
-                case "종료":
-                    break outer;
+            Req req = new Req(cmd);
+
+            switch(req.getPath()) {
                 case "등록":
                     register();
                     break;
                 case "목록":
                     printList();
                     break;
-            }
-            if(cmd.contains("수정")){
-                modify(cmd);
-            }
-            if(cmd.contains("삭제")){
-                delete(cmd);
+                case "수정":
+                    update(req);
+                    break;
+                case "삭제":
+                    delete(req);
+                    break;
+                case "종료":
+                    break outer;
             }
         }
 
@@ -71,14 +77,15 @@ public class App {
         }
     }
 
-    private void modify(String cmd){
-        if(!validateId(cmd)){
-            return;
-        }
-
-        int id = Integer.parseInt(cmd.split("\\?id=")[1]);
+    private void update(Req req){
+        int id = req.getIntParam("id", 0);
         String context = "";
         String author = "";
+
+        if(id <= 0){
+            System.out.println("id 값이 올바르지 않습니다.");
+            return;
+        }
 
         try {
             ArrayList<Phrase> phrasesList = FileAccesser.getPhrasesList();
@@ -92,11 +99,11 @@ public class App {
         } catch (IOException e) {
             System.out.println("[Error] 목록 읽기 실패");
             e.printStackTrace();
-        } finally {
-            if(context.equals("") || author.equals("")){
-                System.out.println("일치하는 id가 없습니다.");
-                return;
-            }
+        }
+
+        if(context.equals("") || author.equals("")){
+            System.out.println("일치하는 id가 없습니다.");
+            return;
         }
 
         System.out.println(id + "번 명언을 수정합니다.");
@@ -114,12 +121,12 @@ public class App {
         }
     }
 
-    private void delete(String cmd){
-        if(!validateId(cmd)){
+    private void delete(Req req){
+        int id = req.getIntParam("id", 0);
+        if(id <= 0){
+            System.out.println("id 값이 올바르지 않습니다.");
             return;
         }
-
-        int id = Integer.parseInt(cmd.split("\\?id=")[1]);
 
         try {
             FileAccesser.deletePhrase(id);
@@ -129,27 +136,5 @@ public class App {
             e.printStackTrace();
         }
     }
-
-    private boolean validateId(String cmd){
-        int id = 0;
-        try{
-            id = Integer.parseInt(cmd.split("\\?id=")[1]);
-        } catch (Exception e){
-            System.out.println("입력 폼이 올바르지 않습니다.");
-            return false;
-        }
-
-        if(id == 0 || id < 0){
-            System.out.println("id 값이 올바르지 않습니다.");
-            return false;
-        }
-
-        return true;
-    }
-
-    private void init(){
-        FileAccesser.checkDataFolder();
-    }
-
 
 }
