@@ -6,8 +6,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 
-public class FileAccesser {
-    public static void registPhrase(Phrase phrase) throws IOException {
+public class PhraseRepository {
+    public void registPhrase(Phrase phrase) throws IOException {
         String writeData = JsonHandler.jsonBuilder(phrase);
 
         String filePath = String.format("%s%d.json", App.DATA_PHRASES_PATH, phrase.getIndex());
@@ -24,7 +24,7 @@ public class FileAccesser {
         writer.close();
     }
 
-    public static ArrayList<Phrase> getPhrasesList() throws IOException {
+    public ArrayList<Phrase> getPhrasesList() throws IOException {
         String folderPath = App.DATA_PHRASES_PATH;
         File dir = new File(folderPath);
 
@@ -46,7 +46,7 @@ public class FileAccesser {
         return phrasesList;
     }
 
-    public static void deletePhrase(int index) throws FileNotFoundException {
+    public void deletePhrase(int index) throws FileNotFoundException {
         String filePath = App.DATA_PHRASES_PATH + index + ".json";
         System.out.println(filePath);
         File file = new File(filePath);
@@ -58,7 +58,7 @@ public class FileAccesser {
         }
     }
 
-    public static void checkDataFolder(){
+    public void checkDataFolder(){
         Path path = Paths.get(App.DATA_PHRASES_PATH);
         if(!Files.exists(path)){
             File folder = new File(App.DATA_PHRASES_PATH);
@@ -66,7 +66,7 @@ public class FileAccesser {
         }
     }
 
-    public static void createDataJson(String jsonString) throws IOException {
+    public void createDataJson(String jsonString) throws IOException {
         String filePath = String.format("data/data.json");
         File file = new File(filePath);
 
