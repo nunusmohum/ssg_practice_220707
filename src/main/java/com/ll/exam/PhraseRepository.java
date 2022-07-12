@@ -7,8 +7,14 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 
 public class PhraseRepository {
+    JsonHandler jsonHandler;
+
+    PhraseRepository(){
+        jsonHandler = new JsonHandler();
+    }
+
     public void registPhrase(Phrase phrase) throws IOException {
-        String writeData = JsonHandler.jsonBuilder(phrase);
+        String writeData = jsonHandler.jsonBuilder(phrase);
 
         String filePath = String.format("%s%d.json", App.DATA_PHRASES_PATH, phrase.getIndex());
         File file = new File(filePath);
@@ -42,7 +48,7 @@ public class PhraseRepository {
             obj.close();
         }
 
-        ArrayList<Phrase> phrasesList = JsonHandler.jsonParser(stringList);
+        ArrayList<Phrase> phrasesList = jsonHandler.jsonParser(stringList);
         return phrasesList;
     }
 

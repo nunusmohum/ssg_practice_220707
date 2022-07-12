@@ -111,7 +111,8 @@ public class PhraseController {
     public void build(Req req){
         try {
             ArrayList<Phrase> phrasesList = phraseRepository.getPhrasesList();
-            String dataJSON = JsonHandler.jsonDataBuilder(phrasesList);
+            JsonHandler jsonHandler = new JsonHandler();
+            String dataJSON = jsonHandler.jsonDataBuilder(phrasesList);
             phraseRepository.createDataJson(dataJSON);
         } catch (IOException e) {
             System.out.println("[Error] data.json 생성 실패");
