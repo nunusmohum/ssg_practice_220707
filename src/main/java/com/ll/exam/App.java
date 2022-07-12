@@ -35,8 +35,12 @@ public class App {
                 case "삭제":
                     delete(req);
                     break;
+                case "빌드":
+                    build(req);
+                    break;
                 case "종료":
                     break outer;
+
             }
         }
 
@@ -134,6 +138,19 @@ public class App {
         } catch (IOException e) {
             System.out.println("[Error] 파일 삭제 실패");
             e.printStackTrace();
+        }
+    }
+
+    private void build(Req req){
+        try {
+            ArrayList<Phrase> phrasesList = FileAccesser.getPhrasesList();
+            String dataJSON = JsonHandler.jsonDataBuilder(phrasesList);
+            FileAccesser.createDataJson(dataJSON);
+        } catch (IOException e) {
+            System.out.println("[Error] data.json 생성 실패");
+            e.printStackTrace();
+        } finally {
+            System.out.println("data.json 이 생성되었습니다.");
         }
     }
 

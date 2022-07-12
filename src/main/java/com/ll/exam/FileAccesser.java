@@ -66,6 +66,17 @@ public class FileAccesser {
         }
     }
 
+    public static void createDataJson(String jsonString) throws IOException {
+        String filePath = String.format("data/data.json");
+        File file = new File(filePath);
+
+        BufferedWriter writer = new BufferedWriter((new FileWriter(file, false)));
+        writer.write(jsonString);
+
+        writer.flush();
+        writer.close();
+    }
+
 
 }
 
