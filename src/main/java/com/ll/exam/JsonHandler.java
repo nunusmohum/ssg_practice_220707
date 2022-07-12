@@ -4,16 +4,16 @@ import java.util.ArrayList;
 
 public class JsonHandler{
     public static String jsonBuilder(Phrase phrase){
-        return String.format("{\n\t\"id\": \"%d\",\n\t\"context\": \"%s\",\n\t\"author\": \"%s\"\n}"
+        return String.format("{\n\t\"id\": \"%d\",\n\t\"content\": \"%s\",\n\t\"author\": \"%s\"\n}"
                 ,phrase.getIndex()
-                ,phrase.getContext()
+                ,phrase.getContent()
                 ,phrase.getAuthor());
     }
 
     public static String jsonBuilderDoubleTab(Phrase phrase){
-        return String.format("\t{\n\t\t\"id\": \"%d\",\n\t\t\"context\": \"%s\",\n\t\t\"author\": \"%s\"\n\t}"
+        return String.format("\t{\n\t\t\"id\": \"%d\",\n\t\t\"content\": \"%s\",\n\t\t\"author\": \"%s\"\n\t}"
                 ,phrase.getIndex()
-                ,phrase.getContext()
+                ,phrase.getContent()
                 ,phrase.getAuthor());
     }
 

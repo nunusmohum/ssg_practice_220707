@@ -5,17 +5,17 @@ import java.util.Arrays;
 
 public class Phrase {
     private final int index;
-    private final String context;
+    private final String content;
     private final String author;
 
-    Phrase(String context, String author){
-        this.context = context;
+    Phrase(String content, String author){
+        this.content = content;
         this.author = author;
         this.index = getLastIndex();
     }
 
-    Phrase(String context, String author, int index){
-        this.context = context;
+    Phrase(String content, String author, int index){
+        this.content = content;
         this.author = author;
         this.index = index;
     }
@@ -38,8 +38,8 @@ public class Phrase {
         return index;
     }
 
-    public String getContext() {
-        return context;
+    public String getContent() {
+        return content;
     }
 
     public String getAuthor() {

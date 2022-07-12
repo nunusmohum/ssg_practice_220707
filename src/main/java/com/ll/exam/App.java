@@ -73,7 +73,7 @@ public class App {
                 System.out.printf("%s / %s / %s\n"
                         ,phrase.getIndex()
                         ,phrase.getAuthor()
-                        ,phrase.getContext());
+                        ,phrase.getContent());
             }
         } catch (IOException e) {
             System.out.println("[Error] 목록 읽기 실패");
@@ -95,7 +95,7 @@ public class App {
             ArrayList<Phrase> phrasesList = FileAccesser.getPhrasesList();
             for(Phrase phrase : phrasesList){
                 if(id == phrase.getIndex()){
-                    context = phrase.getContext();
+                    context = phrase.getContent();
                     author = phrase.getAuthor();
                     break;
                 }
