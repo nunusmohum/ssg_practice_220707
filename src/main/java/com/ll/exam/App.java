@@ -25,7 +25,7 @@ public class App {
 
             switch(req.getPath()) {
                 case "등록":
-                    phraseController.register();
+                    phraseController.regist();
                     break;
                 case "목록":
                     phraseController.printList();

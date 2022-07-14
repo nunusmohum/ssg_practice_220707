@@ -13,24 +13,54 @@ public class PhraseRepository {
         jsonHandler = new JsonHandler();
     }
 
-    public void registPhrase(Phrase phrase) throws IOException {
+    public Phrase registPhrase(String content, String author){
+        Phrase phrase = new Phrase(content, author);
         String writeData = jsonHandler.jsonBuilder(phrase);
 
         String filePath = String.format("%s%d.json", App.DATA_PHRASES_PATH, phrase.getIndex());
         File file = new File(filePath);
 
-        if(!file.exists()){
-            file.createNewFile();
+        try {
+            if(!file.exists()){
+                file.createNewFile();
+            }
+
+            BufferedWriter writer = null;
+            writer = new BufferedWriter((new FileWriter(file, false)));
+            writer.write(writeData);
+            writer.flush();
+            writer.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
 
-        BufferedWriter writer = new BufferedWriter((new FileWriter(file, false)));
-        writer.write(writeData);
-
-        writer.flush();
-        writer.close();
+        return phrase;
     }
 
-    public ArrayList<Phrase> getPhrasesList() throws IOException {
+    public void updatePhrase(String content, String author, int id){
+        Phrase phrase = new Phrase(content, author, id);
+        String writeData = jsonHandler.jsonBuilder(phrase);
+
+        String filePath = String.format("%s%d.json", App.DATA_PHRASES_PATH, phrase.getIndex());
+        File file = new File(filePath);
+
+        try {
+            if(!file.exists()){
+                file.createNewFile();
+            }
+
+            BufferedWriter writer = null;
+            writer = new BufferedWriter((new FileWriter(file, false)));
+            writer.write(writeData);
+            writer.flush();
+            writer.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    public ArrayList<Phrase> getPhrasesList(){
         String folderPath = App.DATA_PHRASES_PATH;
         File dir = new File(folderPath);
 
@@ -38,30 +68,43 @@ public class PhraseRepository {
         ArrayList<String> stringList = new ArrayList<>();
 
         for(File file : filenames){
-            BufferedReader obj = new BufferedReader(new FileReader(file));
+            BufferedReader obj = null;
+            try {
+                obj = new BufferedReader(new FileReader(file));
+            } catch (FileNotFoundException e) {
+                throw new RuntimeException(e);
+            }
             StringBuilder sbResult = new StringBuilder();
             String str;
-            while((str = obj.readLine())!=null){
+            while(true){
+                try {
+                    if ((str = obj.readLine()) == null) break;
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
                 sbResult.append(str);
             }
             stringList.add(String.valueOf(sbResult));
-            obj.close();
+            try {
+                obj.close();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
 
         ArrayList<Phrase> phrasesList = jsonHandler.jsonParser(stringList);
         return phrasesList;
     }
 
-    public void deletePhrase(int index) throws FileNotFoundException {
+    public void deletePhrase(int index) {
         String filePath = App.DATA_PHRASES_PATH + index + ".json";
         System.out.println(filePath);
         File file = new File(filePath);
 
         if(file.exists()){
             file.delete();
-        } else {
-            throw new FileNotFoundException();
         }
+
     }
 
     public void checkDataFolder(){
@@ -72,15 +115,21 @@ public class PhraseRepository {
         }
     }
 
-    public void createDataJson(String jsonString) throws IOException {
-        String filePath = String.format("data/data.json");
+    public void createDataJson(String jsonString){
+        String filePath = "data/data.json";
         File file = new File(filePath);
 
-        BufferedWriter writer = new BufferedWriter((new FileWriter(file, false)));
-        writer.write(jsonString);
+        BufferedWriter writer = null;
+        try {
+            writer = new BufferedWriter((new FileWriter(file, false)));
+            writer.write(jsonString);
 
-        writer.flush();
-        writer.close();
+            writer.flush();
+            writer.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
 
