@@ -72,7 +72,7 @@ public class PhraseRepository {
                 Util.FileHandler.writeFile(indexPath, "1");
             }
         } catch (IOException e) {
-            System.out.println("[Error] inedx.txt file write failed");
+            System.out.println("[Error] index.txt file write failed");
             e.printStackTrace();
         }
     }
