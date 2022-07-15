@@ -44,6 +44,11 @@ public class PhraseController {
         }
         Phrase phrase = phraseService.findById(id);
 
+        if(phrase == null){
+            System.out.println("id 값이 존재하지 않습니다.");
+            return;
+        }
+
         System.out.println(id + "번 명언을 수정합니다.");
         System.out.printf("기존 명언 : %s\n", phrase.getContent());
         System.out.print("새 명언 : ");
@@ -59,7 +64,10 @@ public class PhraseController {
             System.out.println("id 값이 올바르지 않습니다.");
             return;
         }
-        phraseService.delete(id);
+
+        if(!phraseService.delete(id)){
+            System.out.println(id + "번 명언은 존재하지 않습니다.");
+        };
 
         System.out.println(id + "번 명언이 삭제되었습니다.");
     }

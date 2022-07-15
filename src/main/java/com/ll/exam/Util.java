@@ -112,18 +112,20 @@ public class Util {
             return stringList;
         }
 
-        public static void deleteFile(String filePath){
+        public static boolean deleteFile(String filePath){
             File file = new File(filePath);
 
             if(file.exists()){
                 file.delete();
+                return true;
             }
+            return false;
         }
 
         public static void createFolder(String folderPath){
             Path path = Paths.get(folderPath);
             if(!Files.exists(path)){
-                File folder = new File(App.DATA_PHRASES_PATH);
+                File folder = new File(folderPath);
                 folder.mkdirs();
             }
         }
@@ -131,6 +133,16 @@ public class Util {
         public static boolean isFileExists(String filePath){
             Path path = Paths.get(filePath);
             return Files.exists(path);
+        }
+
+        public static void deleteDir(File file){
+            File[] contents = file.listFiles();
+            if (contents != null) {
+                for (File f : contents) {
+                    deleteDir(f);
+                }
+            }
+            file.delete();
         }
     }
 }

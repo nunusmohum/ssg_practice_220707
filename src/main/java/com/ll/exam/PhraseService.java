@@ -33,8 +33,8 @@ public class PhraseService {
         phraseRepository.updatePhrase(content, author, id);
     }
 
-    public void delete(int id){
-        phraseRepository.deletePhrase(id);
+    public boolean delete(int id){
+        return phraseRepository.deletePhrase(id);
     }
 
     public void build(){

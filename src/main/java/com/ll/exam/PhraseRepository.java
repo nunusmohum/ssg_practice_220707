@@ -12,7 +12,7 @@ public class PhraseRepository {
     }
 
     public Phrase registPhrase(String content, String author){
-        String indexPath = "data/index.txt";
+        String indexPath = App.getDataPath() + "index.txt";
         int id = 0;
         try {
             id = Integer.parseInt(Util.FileHandler.readFile(indexPath));
@@ -23,7 +23,7 @@ public class PhraseRepository {
 
         Phrase phrase = new Phrase(id, content, author);
         String writeData = Util.JsonHandler.jsonBuilder(phrase);
-        String filePath = String.format("%s%d.json", App.DATA_PHRASES_PATH, phrase.getId());
+        String filePath = String.format("%s%d.json", App.getPhrasePath(), phrase.getId());
 
         try {
             Util.FileHandler.writeFile(filePath, writeData);
@@ -47,7 +47,7 @@ public class PhraseRepository {
     public void updatePhrase(String content, String author, int id){
         Phrase phrase = new Phrase(id, content, author);
         String writeData = Util.JsonHandler.jsonBuilder(phrase);
-        String filePath = String.format("%s%d.json", App.DATA_PHRASES_PATH, phrase.getId());
+        String filePath = String.format("%s%d.json", App.getPhrasePath(), phrase.getId());
 
         try {
             Util.FileHandler.writeFile(filePath, writeData);
@@ -58,7 +58,7 @@ public class PhraseRepository {
     }
 
     public ArrayList<Phrase> getPhrasesList(){
-        String folderPath = App.DATA_PHRASES_PATH;
+        String folderPath = App.getPhrasePath();
 
         ArrayList<String> stringList = new ArrayList<>();
         try {
@@ -70,20 +70,20 @@ public class PhraseRepository {
         return Util.JsonHandler.jsonParser(stringList);
     }
 
-    public void deletePhrase(int index) {
-        String filePath = App.DATA_PHRASES_PATH + index + ".json";
-        Util.FileHandler.deleteFile(filePath);
+    public boolean deletePhrase(int index) {
+        String filePath = App.getPhrasePath() + index + ".json";
+        return Util.FileHandler.deleteFile(filePath);
     }
 
     public void checkDataFolder(){
-        Util.FileHandler.createFolder(App.DATA_PHRASES_PATH);
+        Util.FileHandler.createFolder(App.getPhrasePath());
     }
 
     public void checkIndexFile(){
-        String filePath = "data/index.txt";
+        String indexPath = App.getDataPath() + "index.txt";
         try {
-            if(!Util.FileHandler.isFileExists(filePath)){
-                Util.FileHandler.writeFile(filePath, "1");
+            if(!Util.FileHandler.isFileExists(indexPath)){
+                Util.FileHandler.writeFile(indexPath, "1");
             }
         } catch (IOException e) {
             System.out.println("[Error] inedx.txt file write failed");
@@ -92,7 +92,7 @@ public class PhraseRepository {
     }
 
     public void createDataJson(String jsonString){
-        String filePath = "data/data.json";
+        String filePath = App.getDataPath() + "data.json";
         try {
             Util.FileHandler.writeFile(filePath, jsonString);
         } catch (IOException e) {

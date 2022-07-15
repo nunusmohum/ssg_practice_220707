@@ -5,12 +5,21 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class App {
-    public static final String DATA_PHRASES_PATH = "data/phrases/";
+    public static String MODE = "data";
     Scanner sc;
 
-    public App(){
-        sc = new Scanner(System.in);
+    public App(Scanner sc){
+        this.sc = sc;
     }
+
+    public static String getPhrasePath(){
+        return App.MODE + "/phrases/";
+    }
+
+    public static String getDataPath(){
+        return App.MODE + "/";
+    }
+
     public void run(){
         System.out.println("=== 명언 SSG ===");
 
