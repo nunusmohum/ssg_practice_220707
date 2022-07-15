@@ -20,7 +20,7 @@ public class PhraseController {
         String author = sc.nextLine();
 
         Phrase phrase = phraseService.regist(content, author);
-        System.out.println(phrase.getIndex() + "번 명언이 등록되었습니다.");
+        System.out.println(phrase.getId() + "번 명언이 등록되었습니다.");
     }
 
     public void printList() {
@@ -30,7 +30,7 @@ public class PhraseController {
 
         for(Phrase phrase : phrasesList){
             System.out.printf("%s / %s / %s\n"
-                    ,phrase.getIndex()
+                    ,phrase.getId()
                     ,phrase.getAuthor()
                     ,phrase.getContent());
         }

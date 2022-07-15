@@ -8,6 +8,7 @@ public class PhraseService {
     PhraseService(){
         phraseRepository = new PhraseRepository();
         phraseRepository.checkDataFolder();
+        phraseRepository.checkIndexFile();
     }
 
     public Phrase regist(String content, String author){
@@ -21,7 +22,7 @@ public class PhraseService {
     public Phrase findById(int id){
         ArrayList<Phrase> phrasesList = phraseRepository.getPhrasesList();
         for(Phrase phrase : phrasesList){
-            if(id == phrase.getIndex()){
+            if(id == phrase.getId()){
                 return phrase;
             }
         }
@@ -38,8 +39,7 @@ public class PhraseService {
 
     public void build(){
         ArrayList<Phrase> phrasesList = phraseRepository.getPhrasesList();
-        JsonHandler jsonHandler = new JsonHandler();
-        String dataJSON = jsonHandler.jsonDataBuilder(phrasesList);
+        String dataJSON = Util.JsonHandler.jsonDataBuilder(phrasesList);
         phraseRepository.createDataJson(dataJSON);
     }
 }
