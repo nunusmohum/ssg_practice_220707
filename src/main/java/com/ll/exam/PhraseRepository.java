@@ -9,18 +9,12 @@ import java.util.ArrayList;
 public class PhraseRepository {
 
     PhraseRepository(){
+        checkDataFolder();
+        checkIndexFile();
     }
 
     public Phrase registPhrase(String content, String author){
-        String indexPath = App.getDataPath() + "index.txt";
-        int id = 0;
-        try {
-            id = Integer.parseInt(Util.FileHandler.readFile(indexPath));
-        } catch (IOException e) {
-            System.out.println("[Error] index.txt file read failed");
-            e.printStackTrace();
-        }
-
+        int id = getLastId();
         Phrase phrase = new Phrase(id, content, author);
         String writeData = Util.JsonHandler.jsonBuilder(phrase);
         String filePath = String.format("%s%d.json", App.getPhrasePath(), phrase.getId());
@@ -32,15 +26,7 @@ public class PhraseRepository {
             e.printStackTrace();
         }
 
-        try {
-            id++;
-            System.out.println(id);
-            Util.FileHandler.writeFile(indexPath, Integer.toString(id));
-        } catch (IOException e) {
-            System.out.println("[Error] index.txt file write failed");
-            e.printStackTrace();
-        }
-
+        setLastId(id);
         return phrase;
     }
 
@@ -100,6 +86,43 @@ public class PhraseRepository {
             e.printStackTrace();
         }
     }
+
+    public Phrase findById(int id){
+        ArrayList<Phrase> phrasesList = getPhrasesList();
+        for(Phrase phrase : phrasesList){
+            if(1 == phrase.getId()){
+                return phrase;
+            }
+        }
+
+        return null;
+    }
+
+    public int getLastId(){
+        String indexPath = App.getDataPath() + "index.txt";
+        int id = 0;
+        try {
+            id = Integer.parseInt(Util.FileHandler.readFile(indexPath));
+        } catch (IOException e) {
+            System.out.println("[Error] index.txt file read failed");
+            e.printStackTrace();
+        }
+
+        return id;
+    }
+
+    public void setLastId(int id){
+        String indexPath = App.getDataPath() + "index.txt";
+        try {
+            id++;
+            System.out.println(id);
+            Util.FileHandler.writeFile(indexPath, Integer.toString(id));
+        } catch (IOException e) {
+            System.out.println("[Error] index.txt file write failed");
+            e.printStackTrace();
+        }
+    }
+
 
 
 }

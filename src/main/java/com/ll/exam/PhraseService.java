@@ -7,8 +7,6 @@ public class PhraseService {
 
     PhraseService(){
         phraseRepository = new PhraseRepository();
-        phraseRepository.checkDataFolder();
-        phraseRepository.checkIndexFile();
     }
 
     public Phrase regist(String content, String author){
@@ -20,13 +18,7 @@ public class PhraseService {
     }
 
     public Phrase findById(int id){
-        ArrayList<Phrase> phrasesList = phraseRepository.getPhrasesList();
-        for(Phrase phrase : phrasesList){
-            if(id == phrase.getId()){
-                return phrase;
-            }
-        }
-        return null;
+        return phraseRepository.findById(id);
     }
 
     public void update(String content, String author, int id){
