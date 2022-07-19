@@ -90,7 +90,7 @@ public class PhraseRepository {
     public Phrase findById(int id){
         ArrayList<Phrase> phrasesList = getPhrasesList();
         for(Phrase phrase : phrasesList){
-            if(1 == phrase.getId()){
+            if(id == phrase.getId()){
                 return phrase;
             }
         }
